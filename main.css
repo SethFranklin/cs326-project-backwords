@@ -14,7 +14,8 @@
 }
 
 .button {
-
+	background-color: lavender;
+	border-radius: 10px;
 }
 
 .page {
