@@ -72,10 +72,20 @@ class ViewView {
 		create_button.classList.add("button");
 		create_button.appendChild(create_text_node);
 		create_button.addEventListener("click", function() {
-			//new CreateView(view_container, {pid: page.pid, body: page.body});
+			//new CreateView(view_container, {next_pid: page.next_pid, body: page.body});
 		});
 		view_container.appendChild(create_button);
 		// Display next page button if not last page
+		if (page.num_left !== 0) {
+			const next_button = document.createElement("button");
+			const next_text_node = document.createTextNode("Read the next page");
+			next_button.classList.add("button");
+			next_button.appendChild(next_text_node);
+			next_button.addEventListener("click", function() {
+				new ViewView(view_container, {pid: page.next_pid});
+			});
+			view_container.appendChild(next_button);
+		}
 	}
 }
 
