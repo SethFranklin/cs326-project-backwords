@@ -1,0 +1,24 @@
+
+.header {
+	cursor:pointer;
+	color: green;
+	text-decoration:underline;
+}
+
+.info {
+	color: blue;
+}
+
+.container {
+	background: lightgreen;
+}
+
+.button {
+
+}
+
+.page {
+	background: lightgoldenrodyellow;
+	outline: 2px solid orange;
+	border-radius: 3px;
+}
