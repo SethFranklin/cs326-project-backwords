@@ -1,6 +1,8 @@
 
 import { readPage, deletePage } from "../api.js";
 import { MainView } from "./main.js";
+import { DeleteView } from "./delete.js";
+import { UpdateView } from "./update.js";
 
 class ViewView {
 	constructor(view_container, view_data) {
@@ -53,7 +55,7 @@ class ViewView {
 			delete_button.appendChild(delete_text_node);
 			delete_button.addEventListener("click", function() {
 				deletePage(page.pid);
-				//new DeleteView(view_container, {next_pid: page.next_pid});
+				new DeleteView(view_container, {next_pid: page.next_pid});
 			});
 			view_container.appendChild(delete_button);
 		}
@@ -63,7 +65,7 @@ class ViewView {
 		update_button.classList.add("button");
 		update_button.appendChild(update_text_node);
 		update_button.addEventListener("click", function() {
-			//new UpdateView(view_container, {pid: page.pid, body: page.body});
+			new UpdateView(view_container, {pid: page.pid, body: page.body});
 		});
 		view_container.appendChild(update_button);
 		// Display create new page before button
@@ -72,7 +74,7 @@ class ViewView {
 		create_button.classList.add("button");
 		create_button.appendChild(create_text_node);
 		create_button.addEventListener("click", function() {
-			//new CreateView(view_container, {next_pid: page.next_pid, body: page.body});
+			//new CreateView(view_container, {next_pid: page.next_pid, body: ""});
 		});
 		view_container.appendChild(create_button);
 		// Display next page button if not last page

@@ -1,6 +1,8 @@
 
 import { MainView } from "./view/main.js";
 import { ViewView } from "./view/view.js";
+import { DeleteView } from "./view/delete.js";
+import { DeleteView } from "./view/delete.js";
 
 window.addEventListener("load", async function() {
 	// get view_container div
@@ -14,5 +16,9 @@ window.addEventListener("load", async function() {
 		new MainView(view_container, view_data);
 	} else if (cur_view === "view") {
 		new ViewView(view_container, view_data);
+	} else if (cur_view === "delete") {
+		new DeleteView(view_container, view_data);
+	} else if (cur_view === "update") {
+		new UpdateView(view_container, view_data);
 	}
 });
