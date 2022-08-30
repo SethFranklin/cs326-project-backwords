@@ -18,3 +18,12 @@ My application is called "Backwords", and is centered around the idea of writing
 - The number of pages that are immediately prior to the current page (num_prior)
 - The number of pages until the end of the story (num_left)
 
+In my code and on the website, I will use the concept of a "leaf". In short, a leaf is a page that has no pages immediately prior, meaning that no one has written a page before it. If you visualize all of the pages in a tree relationship, where the last page is the root of the tree, then these pages would indeed be called leaves in graph theory. I also like it because I want to use the idiom "Turn a new leaf" on the main page of the website. The main page will display all of the leaves, and starting reading from one is literally turning a new leaf, since it is the beginning of some story.
+
+# Functionality
+
+The application will be a single page application, however there will be multiple views in the single page to simulate going between different pages on the website. The current view and any associated data will be stored inside the browser's local storage in case the user leaves the page and comes back later. For example, if the user is writing a new page, and accidentally closes the browser, they can simply come back to the site and continue where they left off since the draft was saved in local storage.
+
+Here is a list of views I have planned for my application:
+
+- ****
