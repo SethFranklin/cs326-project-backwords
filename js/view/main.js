@@ -19,7 +19,7 @@ class MainView {
 		view_container.appendChild(header);
 		// Display "Turn a new leaf idiom"
 		const new_leaf = document.createElement("p");
-		const new_leaf_text_node = document.createTextNode("Turn a new leaf");
+		const new_leaf_text_node = document.createTextNode("Turn a new leaf!");
 		new_leaf.classList.add("info");
 		new_leaf.appendChild(new_leaf_text_node);
 		view_container.appendChild(new_leaf);
