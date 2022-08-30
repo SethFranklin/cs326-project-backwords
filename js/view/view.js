@@ -3,6 +3,7 @@ import { readPage, deletePage } from "../api.js";
 import { MainView } from "./main.js";
 import { DeleteView } from "./delete.js";
 import { UpdateView } from "./update.js";
+import { CreateView } from "./create.js";
 
 class ViewView {
 	constructor(view_container, view_data) {
@@ -70,11 +71,11 @@ class ViewView {
 		view_container.appendChild(update_button);
 		// Display create new page before button
 		const create_button = document.createElement("button");
-		const create_text_node = document.createTextNode("Create a new page before this page");
+		const create_text_node = document.createTextNode("Write a new page before this page");
 		create_button.classList.add("button");
 		create_button.appendChild(create_text_node);
 		create_button.addEventListener("click", function() {
-			//new CreateView(view_container, {next_pid: page.next_pid, body: ""});
+			new CreateView(view_container, {next_pid: page.next_pid, body: ""});
 		});
 		view_container.appendChild(create_button);
 		// Display next page button if not last page

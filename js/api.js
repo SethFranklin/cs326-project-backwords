@@ -13,6 +13,7 @@
 */
 
 // @TODO: make actual api calls using fetch to the server isntead of making dummy calls
+// @TODO: write function signatures/explanations. are comments required for this project?
 
 function createPage(body, next_pid) {
 	return 2;
