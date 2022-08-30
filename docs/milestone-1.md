@@ -26,4 +26,10 @@ The application will be a single page application, however there will be multipl
 
 Here is a list of views I have planned for my application:
 
-- ****
+- **Main page (Turn a new leaf):** This view will display all of the leaves in order of the latest creation date. Users can click on a leaf to read it.
+- **View page:** This is the view where users can actually read the pages. There will be a button to go to the next page, and another button to create a new page before the current page. If the page is a leaf and not the last page, there will be a button to delete the page. I don't want users deleting non-leaf pages since at least one story relies on such pages.
+- **Create page:** This is the view where the user can write a page. There will be a "cancel" button to cancel out of it and go back to the page, as well as a "submit" button to submit the page once they're done writing it.
+- **Update page:** This is the view where a user can edit a page. Like the create page, there will be similar "cancel" and "create" buttons
+- **Leaf deleted page:** This is the view that appears after a user deletes a leaf. It will have a button to go to the next page after the deleted leaf.
+
+
