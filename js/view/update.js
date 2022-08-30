@@ -1,4 +1,5 @@
 
+import { updatePage } from "../api.js";
 import { MainView } from "./main.js";
 import { ViewView } from "./view.js";
 
@@ -26,17 +27,38 @@ class UpdateView {
 		info.classList.add("info");
 		info.appendChild(info_text_node);
 		view_container.appendChild(info);
-		// Display text box
+		// Display text area
+		const text_area = document.createElement("textarea");
+		text_area.value = view_data.body;
+		text_area.rows = 30;
+		text_area.cols = 50;
+		text_area.classList.add("page");
+		text_area.addEventListener("keyup", function() {
+			view_data.body = text_area.value;
+			window.localStorage.setItem("view_data", JSON.stringify(view_data));
+		})
+		view_container.appendChild(text_area);
+		// Display line break
+		view_container.appendChild(document.createElement("br"));
 		// Display cancel button
-		const next_button = document.createElement("button");
-		const next_text_node = document.createTextNode("Cancel");
-		next_button.classList.add("button");
-		next_button.appendChild(next_text_node);
-		next_button.addEventListener("click", function() {
-			new ViewView(view_container, {pid: view_data.next_pid});
+		const cancel_button = document.createElement("button");
+		const cancel_text_node = document.createTextNode("Cancel");
+		cancel_button.classList.add("button");
+		cancel_button.appendChild(cancel_text_node);
+		cancel_button.addEventListener("click", function() {
+			new ViewView(view_container, {pid: view_data.pid});
 		});
-		view_container.appendChild(next_button);
+		view_container.appendChild(cancel_button);
 		// Display save edits button
+		const save_button = document.createElement("button");
+		const save_text_node = document.createTextNode("Save your edits");
+		save_button.classList.add("button");
+		save_button.appendChild(save_text_node);
+		save_button.addEventListener("click", function() {
+			updatePage(view_data.pid, view_data.body);
+			new ViewView(view_container, {pid: view_data.pid});
+		});
+		view_container.appendChild(save_button);
 	}
 }
 

@@ -28,7 +28,7 @@ function readPage(pid) {
 	}
 }
 
-function updatePage(pid, new_body) {
+function updatePage(pid, body) {
 	return 1;
 }
 

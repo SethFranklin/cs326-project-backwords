@@ -2,7 +2,7 @@
 import { MainView } from "./view/main.js";
 import { ViewView } from "./view/view.js";
 import { DeleteView } from "./view/delete.js";
-import { DeleteView } from "./view/delete.js";
+import { UpdateView } from "./view/update.js";
 
 window.addEventListener("load", async function() {
 	// get view_container div
