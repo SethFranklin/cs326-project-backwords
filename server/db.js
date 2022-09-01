@@ -41,6 +41,10 @@ const insertLastPageStatement = `
 	) on conflict (pid) do nothing;
 `;
 
+const getLeavesStatement = `
+	select pid, preview, num_left from page where num_prior=0 limit 100;
+`;
+
 class BackwordsDB {
 
 	constructor() {
@@ -84,7 +88,8 @@ class BackwordsDB {
 	}
 
 	async getLeaves() {
-		return [{"pid": 1, "preview": "Left branch...", "num_left": 1}, {"pid": 2, "preview": "Right branch...", "num_left": 1}];
+		const query_res = await this.client.query(getLeavesStatement);
+		return query_res.rows;
 	}
 
 }
