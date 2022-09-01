@@ -52,7 +52,7 @@ const createIncrementNumPriorStatement = `
 `;
 
 const readPageStatement = `
-	select pid, body, next_pid, timestamp, num_prior, num_left from page where pid=$1 limit 1;
+	select pid, body, next_pid, timestamp, num_prior, num_left from page where pid=$1;
 `;
 
 const updatePageStatement = `

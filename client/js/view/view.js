@@ -48,9 +48,18 @@ class ViewView {
 		view_container.appendChild(pages_prior);
 		// Display page body in container
 		const page_container = document.createElement("div");
-		const page_container_text_node = document.createTextNode(page.body);
+		const body_lines = page.body.split("\n");
 		page_container.classList.add("page");
-		page_container.appendChild(page_container_text_node);
+		for (let i = 0; i < body_lines.length - 1; i++) {
+			const line = document.createTextNode(body_lines[i]);
+			const line_break = document.createElement("br");
+			page_container.appendChild(line);
+			page_container.appendChild(line_break);
+		}
+		if (body_lines.length > 0) {
+			const last_line = document.createTextNode(body_lines[body_lines.length - 1]);
+			page_container.appendChild(last_line);
+		}
 		view_container.appendChild(page_container);
 		// Display delete button if a leaf and not last page
 		if (page.num_prior === 0 && page.num_left !== 0) {
