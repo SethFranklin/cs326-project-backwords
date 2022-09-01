@@ -8,7 +8,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "deploy": "copyfiles client/* server/* .env package*.json deploy",
+    "deploy": "copyfiles client/* client/*/* client/*/*/* server/* .env package*.json deploy",
     "start": "node server/index.js",
     "debug": "node --inspect-brk index.js"
   },
