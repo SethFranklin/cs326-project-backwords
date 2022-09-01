@@ -1,9 +1,15 @@
 
 async function createPage(body, next_pid) {
-	const response = await fetch("/page?" + new URLSearchParams({
-		body: body,
-		next_pid: next_pid
-	}), {method: "POST"});
+	const response = await fetch("/page", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			body: body,
+			next_pid: next_pid
+		})
+	});
 	return await response.json();
 }
 
@@ -15,10 +21,16 @@ async function readPage(pid) {
 }
 
 async function updatePage(pid, body) {
-	const response = await fetch("/page?" + new URLSearchParams({
-		pid: pid,
-		body: body
-	}), {method: "PATCH"});
+	const response = await fetch("/page", {
+		method: "PATCH",
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: JSON.stringify({
+			pid: pid,
+			body: body
+		})
+	});
 	return await response.json();
 }
 

@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/', express.static('client'));
 
 app.post("/page", async function(req, res) {
-	res.json(await backwords_db.createPage(req.query.body, parseInt(req.query.next_pid)));
+	res.json(await backwords_db.createPage(req.body.body, parseInt(req.body.next_pid)));
 });
 
 app.get("/page", async function(req, res) {
@@ -22,7 +22,7 @@ app.get("/page", async function(req, res) {
 });
 
 app.patch("/page", async function(req, res) {
-	res.json(await backwords_db.updatePage(parseInt(req.query.pid), req.query.body));
+	res.json(await backwords_db.updatePage(parseInt(req.body.pid), req.body.body));
 });
 
 app.delete("/page", async function(req, res) {
