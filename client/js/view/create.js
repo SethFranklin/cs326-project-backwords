@@ -4,7 +4,10 @@ import { MainView } from "./main.js";
 import { ViewView } from "./view.js";
 
 class CreateView {
-	constructor(view_container, view_data) {
+	constructor() {
+	}
+
+	async initialize(view_container, view_data) {
 		// Store/clear any cur_view
 		window.localStorage.setItem("cur_view", "create");
 		window.localStorage.setItem("view_data", JSON.stringify(view_data));
@@ -17,8 +20,9 @@ class CreateView {
 		const header_text_node = document.createTextNode("Backwords");
 		header.classList.add("header");
 		header.appendChild(header_text_node);
-		header.addEventListener("click", function() {
-			new MainView(view_container, undefined);
+		header.addEventListener("click", async function() {
+			const view = new MainView();
+			await view.initialize(view_container, undefined);
 		});
 		view_container.appendChild(header);
 		// Display info text node
@@ -45,8 +49,9 @@ class CreateView {
 		const cancel_text_node = document.createTextNode("Cancel");
 		cancel_button.classList.add("button");
 		cancel_button.appendChild(cancel_text_node);
-		cancel_button.addEventListener("click", function() {
-			new ViewView(view_container, {pid: view_data.next_pid});
+		cancel_button.addEventListener("click", async function() {
+			const view = new ViewView();
+			await view.initialize(view_container, {pid: view_data.next_pid});
 		});
 		view_container.appendChild(cancel_button);
 		// Display save edits button
@@ -54,9 +59,10 @@ class CreateView {
 		const save_text_node = document.createTextNode("Submit your new page");
 		save_button.classList.add("button");
 		save_button.appendChild(save_text_node);
-		save_button.addEventListener("click", function() {
-			const new_pid = createPage(view_data.body, view_data.next_pid);
-			new ViewView(view_container, {pid: new_pid});
+		save_button.addEventListener("click", async function() {
+			const new_pid = await createPage(view_data.body, view_data.next_pid);
+			const view = new ViewView();
+			await view.initialize(view_container, {pid: new_pid});
 		});
 		view_container.appendChild(save_button);
 	}

@@ -6,8 +6,11 @@ import { UpdateView } from "./update.js";
 import { CreateView } from "./create.js";
 
 class ViewView {
-	constructor(view_container, view_data) {
-		// Store/clear any cur_view
+	constructor() {
+	}
+
+	async initialize(view_container, view_data) {
+		// Store/clear any cufr_view
 		window.localStorage.setItem("cur_view", "view");
 		window.localStorage.setItem("view_data", JSON.stringify(view_data));
 		// view_data.pid holds page id
@@ -18,12 +21,13 @@ class ViewView {
 		const header_text_node = document.createTextNode("Backwords");
 		header.classList.add("header");
 		header.appendChild(header_text_node);
-		header.addEventListener("click", function() {
-			new MainView(view_container, undefined);
+		header.addEventListener("click", async function() {
+			const view = new MainView();
+			await view.initialize(view_container, undefined);
 		});
 		view_container.appendChild(header);
 		// Gets page data
-		const page = readPage(view_data.pid);
+		const page = await readPage(view_data.pid);
 		// Display date created
 		const date = document.createElement("p");
 		const date_text_node = document.createTextNode("Date created: " + new Date(page.timestamp));
@@ -54,9 +58,10 @@ class ViewView {
 			const delete_text_node = document.createTextNode("Delete this leaf");
 			delete_button.classList.add("button");
 			delete_button.appendChild(delete_text_node);
-			delete_button.addEventListener("click", function() {
-				deletePage(page.pid);
-				new DeleteView(view_container, {next_pid: page.next_pid});
+			delete_button.addEventListener("click", async function() {
+				await deletePage(page.pid);
+				const view = new DeleteView();
+				await view.initialize(view_container, {next_pid: page.next_pid});
 			});
 			view_container.appendChild(delete_button);
 		}
@@ -65,8 +70,9 @@ class ViewView {
 		const update_text_node = document.createTextNode("Edit this page");
 		update_button.classList.add("button");
 		update_button.appendChild(update_text_node);
-		update_button.addEventListener("click", function() {
-			new UpdateView(view_container, {pid: page.pid, body: page.body});
+		update_button.addEventListener("click", async function() {
+			const view = new UpdateView();
+			await view.initialize(view_container, {pid: page.pid, body: page.body});
 		});
 		view_container.appendChild(update_button);
 		// Display create new page before button
@@ -74,8 +80,9 @@ class ViewView {
 		const create_text_node = document.createTextNode("Write a new page before this page");
 		create_button.classList.add("button");
 		create_button.appendChild(create_text_node);
-		create_button.addEventListener("click", function() {
-			new CreateView(view_container, {next_pid: page.next_pid, body: ""});
+		create_button.addEventListener("click", async function() {
+			const view = new CreateView();
+			await view.initialize(view_container, {next_pid: page.next_pid, body: ""});
 		});
 		view_container.appendChild(create_button);
 		// Display next page button if not last page
@@ -84,8 +91,9 @@ class ViewView {
 			const next_text_node = document.createTextNode("Read the next page");
 			next_button.classList.add("button");
 			next_button.appendChild(next_text_node);
-			next_button.addEventListener("click", function() {
-				new ViewView(view_container, {pid: page.next_pid});
+			next_button.addEventListener("click", async function() {
+				const view = new ViewView();
+				await view.initialize(view_container, {pid: page.next_pid});
 			});
 			view_container.appendChild(next_button);
 		}

@@ -14,14 +14,19 @@ window.addEventListener("load", async function() {
 	const view_data = (cur_view === null || view_data_string === null) ? undefined : JSON.parse(view_data_string);
 	// create appropriate view object
 	if (cur_view === null || cur_view === "main") {
-		new MainView(view_container, view_data);
+		const view = new MainView();
+		await view.initialize(view_container, view_data);
 	} else if (cur_view === "view") {
-		new ViewView(view_container, view_data);
+		const view = new ViewView();
+		await view.initialize(view_container, view_data);
 	} else if (cur_view === "delete") {
-		new DeleteView(view_container, view_data);
+		const view = new DeleteView();
+		await view.initialize(view_container, view_data);
 	} else if (cur_view === "update") {
-		new UpdateView(view_container, view_data);
+		const view = new UpdateView();
+		await view.initialize(view_container, view_data);
 	} else if (cur_view === "create") {
-		new CreateView(view_container, view_data);
+		const view = new CreateView();
+		await view.initialize(view_container, view_data);
 	}
 });
