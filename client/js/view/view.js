@@ -30,7 +30,7 @@ class ViewView {
 		const page = await readPage(view_data.pid);
 		// Display date created
 		const date = document.createElement("p");
-		const date_text_node = document.createTextNode("Date created: " + new Date(page.timestamp));
+		const date_text_node = document.createTextNode("Date created: " + new Date(parseInt(page.timestamp)));
 		date.classList.add("info");
 		date.appendChild(date_text_node);
 		view_container.appendChild(date);
