@@ -82,7 +82,7 @@ class ViewView {
 		create_button.appendChild(create_text_node);
 		create_button.addEventListener("click", async function() {
 			const view = new CreateView();
-			await view.initialize(view_container, {next_pid: page.next_pid, body: ""});
+			await view.initialize(view_container, {next_pid: page.pid, body: ""});
 		});
 		view_container.appendChild(create_button);
 		// Display next page button if not last page
