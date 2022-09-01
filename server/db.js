@@ -1,18 +1,4 @@
 
-/*
-API calls:
-/page/ POST - needs body and next page id
-- returns new page id
-/page/ GET - needs page id
-- returns object type {page id, body, next page id, timestamp, num pages before, num pages left}
-/page/ PATCH? - needs page id and new body
-- returns page id
-/page/ DELETE - needs page id
-- returns next page id
-/leaves/ GET (dump leaves sorted by latest timestamp) - needs no arguments
-- returns array of objects type {page id, preview, num pages left}
-*/
-
 import 'dotenv/config';
 import pg from 'pg';
 const { Pool } = pg;
@@ -73,6 +59,18 @@ const updatePageStatement = `
 	update page set body=$1, preview=$2 where pid=$3;
 `;
 
+const deleteGetInfoStatement = `
+	select num_prior, num_left, next_pid from page where pid=$1;
+`;
+
+const deleteRemovePageStatement = `
+	delete from page where pid=$1;
+`;
+
+const deleteDecrementNumPriorStatement = `
+	update page set num_prior=num_prior-1 where pid=$1;
+`;
+
 const getLeavesStatement = `
 	select pid, preview, num_left from page where num_prior=0 order by timestamp desc limit 100;
 `;
@@ -95,7 +93,7 @@ class BackwordsDB {
 
 		this.client = await pool.connect();
 
-		// Do database page table initialize commands
+		// Do database page table initialize statements
 		await this.client.query(createPageTableStatement);
 		await this.client.query(insertLastPageStatement);
 
@@ -129,11 +127,15 @@ class BackwordsDB {
 	}
 
 	async deletePage(pid) {
-		// query to get num_prior and num_left to make sure it can be deleted (also get next_pid for later)
-		// if it can be deleted:
-		// delete row from table
-		// query to update (decrement) next page's num prior
-		return 0;
+		let query_res = await this.client.query(deleteGetInfoStatement, [pid]);
+		const num_prior = query_res.rows[0].num_prior;
+		const num_left = query_res.rows[0].num_left;
+		const next_pid = query_res.rows[0].next_pid;
+		if (num_prior === 0 && num_left !== 0) {
+			query_res = await this.client.query(deleteRemovePageStatement, [pid]);
+			query_res = await this.client.query(deleteDecrementNumPriorStatement, [next_pid]);
+		}
+		return next_pid;
 	}
 
 	async getLeaves() {
