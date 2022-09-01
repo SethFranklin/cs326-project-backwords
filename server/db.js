@@ -41,6 +41,30 @@ const insertLastPageStatement = `
 	) on conflict (pid) do nothing;
 `;
 
+const createNewPidStatement = `
+	select max(pid)+1 as pid from page;
+`;
+
+const createPagesLeftStatement = `
+	select num_left+1 as num_left from page where pid=$1;
+`;
+
+const createInsertPageStatement = `
+	insert into page values (
+		$1,
+		$2,
+		$3,
+		$4,
+		$5,
+		0,
+		$6
+	);
+`;
+
+const createIncrementNumPriorStatement = `
+	update page set num_prior=num_prior+1 where pid=$1;
+`;
+
 const readPageStatement = `
 	select pid, body, next_pid, timestamp, num_prior, num_left from page where pid=$1 limit 1;
 `;
@@ -50,7 +74,7 @@ const updatePageStatement = `
 `;
 
 const getLeavesStatement = `
-	select pid, preview, num_left from page where num_prior=0 limit 100;
+	select pid, preview, num_left from page where num_prior=0 order by timestamp desc limit 100;
 `;
 
 class BackwordsDB {
@@ -78,7 +102,20 @@ class BackwordsDB {
 	}
 
 	async createPage(body, next_pid) {
-		return 2;
+		let query_res = await this.client.query(createNewPidStatement);
+		const pid = query_res.rows[0].pid;
+		query_res = await this.client.query(createPagesLeftStatement, [next_pid]);
+		const num_left = query_res.rows[0].num_left;
+		query_res = await this.client.query(createInsertPageStatement, [
+			pid,
+			body.substring(0, 2047),
+			this.generatePreview(body),
+			next_pid,
+			Date.now(),
+			num_left
+		]);
+		query_res = await this.client.query(createIncrementNumPriorStatement, [next_pid]);
+		return pid;
 	}
 
 	async readPage(pid) {
@@ -92,6 +129,10 @@ class BackwordsDB {
 	}
 
 	async deletePage(pid) {
+		// query to get num_prior and num_left to make sure it can be deleted (also get next_pid for later)
+		// if it can be deleted:
+		// delete row from table
+		// query to update (decrement) next page's num prior
 		return 0;
 	}
 
