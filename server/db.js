@@ -9,12 +9,12 @@ class BackwordsDB {
 	}
 
 	async initialize() {
-		/*const pool = new Pool({
-		  connectionString: process.env.DATABASE_URL,
-		  ssl: { rejectUnauthorized: false }
+		const pool = new Pool({
+			connectionString: process.env.DATABASE_URL,
+			ssl: { rejectUnauthorized: false }
 		});
 
-		this.client = await pool.connect();*/
+		this.client = await pool.connect();
 
 		// Do database page table initialize command(s)
 	}
