@@ -45,6 +45,10 @@ const readPageStatement = `
 	select pid, body, next_pid, timestamp, num_prior, num_left from page where pid=$1 limit 1;
 `;
 
+const updatePageStatement = `
+	update page set body=$1, preview=$2 where pid=$3;
+`;
+
 const getLeavesStatement = `
 	select pid, preview, num_left from page where num_prior=0 limit 100;
 `;
@@ -52,6 +56,10 @@ const getLeavesStatement = `
 class BackwordsDB {
 
 	constructor() {
+	}
+
+	generatePreview(body) {
+		return body.substring(0, 20) + "...";
 	}
 
 	async initialize() {
@@ -79,7 +87,8 @@ class BackwordsDB {
 	}
 
 	async updatePage(pid, body) {
-		return 1;
+		const query_res = await this.client.query(updatePageStatement, [body.substring(0, 2047), this.generatePreview(body), pid]);
+		return pid;
 	}
 
 	async deletePage(pid) {
